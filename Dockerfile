@@ -35,13 +35,14 @@ RUN $STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +a
 	$STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 70 validate +quit || \
 	$STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 10 validate +quit || exit 0
 
-# Install MetaMod (+ creating SAVE dir to avoid scan SAVE dir error)
+# Install MetaMod (+ creating SAVE dir to avoid scan SAVE dir error + solve first start failure)
 RUN mkdir -p $HLDS_PATH/cstrike/addons/metamod/dlls && \
 	curl -sqL "http://prdownloads.sourceforge.net/metamod/metamod-1.20-linux.tar.gz?download" | tar -C $HLDS_PATH/cstrike/addons/metamod/dlls -zxvf - && \
 	touch $HLDS_PATH/cstrike/addons/metamod/plugins.ini && \
 	sed -i '/^gamedll_linux/d' $HLDS_PATH/cstrike/liblist.gam && \
 	echo 'gamedll_linux "addons/metamod/dlls/metamod_i386.so"' >> $HLDS_PATH/cstrike/liblist.gam && \
-	mkdir -p $HLDS_PATH/cstrike/SAVE
+	mkdir -p $HLDS_PATH/cstrike/SAVE && \
+	cp $HLDS_PATH/cstrike/steam_appid.txt $HLDS_PATH/steam_appid.txt
 
 # Install DProto
 COPY --chown=steam:steam files/dproto_i386.so $HLDS_PATH/cstrike/addons/dproto/dlls/dproto_i386.so
@@ -69,7 +70,7 @@ COPY --chown=steam:steam --from=builder /home/steam/.steam /home/steam/.steam
 # Correct path for steamclient
 RUN ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
 	mkdir -p $OPTS_PATH
-
+	
 # Final preparations
 COPY files/start.sh /bin/start.sh
 EXPOSE 27015/udp
