@@ -4,7 +4,8 @@ LABEL maintainer="krow7@ya.ru"
 # Setting envs
 ENV HLDS_PATH=/home/steam/hlds \
 	STEAMCMD_PATH=/home/steam/steamcmd \
-	OPTS_PATH=/home/steam/opts
+	OPTS_PATH=/home/steam/opts \
+	STEAM_PATH=/home/steam/Steam
 
 # Install some stuff
 RUN apt-get update && apt-get install -y \
@@ -35,14 +36,12 @@ RUN $STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +a
 	$STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 70 validate +quit || \
 	$STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 10 validate +quit || exit 0
 
-# Install MetaMod (+ creating SAVE dir to avoid scan SAVE dir error + solve first start failure)
+# Install MetaMod
 RUN mkdir -p $HLDS_PATH/cstrike/addons/metamod/dlls && \
 	curl -sqL "http://prdownloads.sourceforge.net/metamod/metamod-1.20-linux.tar.gz?download" | tar -C $HLDS_PATH/cstrike/addons/metamod/dlls -zxvf - && \
 	touch $HLDS_PATH/cstrike/addons/metamod/plugins.ini && \
 	sed -i '/^gamedll_linux/d' $HLDS_PATH/cstrike/liblist.gam && \
-	echo 'gamedll_linux "addons/metamod/dlls/metamod_i386.so"' >> $HLDS_PATH/cstrike/liblist.gam && \
-	mkdir -p $HLDS_PATH/cstrike/SAVE && \
-	cp $HLDS_PATH/cstrike/steam_appid.txt $HLDS_PATH/steam_appid.txt
+	echo 'gamedll_linux "addons/metamod/dlls/metamod_i386.so"' >> $HLDS_PATH/cstrike/liblist.gam
 
 # Install DProto
 COPY --chown=steam:steam files/dproto_i386.so $HLDS_PATH/cstrike/addons/dproto/dlls/dproto_i386.so
@@ -55,6 +54,19 @@ RUN curl -sqL "http://www.amxmodx.org/release/amxmodx-1.8.2-base-linux.tar.gz" |
 	curl -sqL "http://www.amxmodx.org/release/amxmodx-1.8.2-cstrike-linux.tar.gz" | tar -C $HLDS_PATH/cstrike/ -zxvf - && \
 	echo 'linux addons/amxmodx/dlls/amxmodx_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini
 	
+# Aux stuff
+RUN mkdir -p $HLDS_PATH/cstrike/SAVE && \
+	cp $HLDS_PATH/cstrike/steam_appid.txt $HLDS_PATH/steam_appid.txt && \
+	rm -rf $STEAM_PATH/appcache/httpcache && \
+	rm -rf $STEAM_PATH/depotcache && \
+	rm -rf $STEAM_PATH/logs && \
+	find $HLDS_PATH/valve/maps -name "*.*" -type f -delete && \
+	find $HLDS_PATH/valve/media -name "*.*" -type f -delete && \
+	find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete && \
+	find $HLDS_PATH/ -name "*.dll" -type f -delete && \
+	find $HLDS_PATH/ -name "*_amd64.so" -type f -delete && \
+	find $HLDS_PATH/ -name "*.dylib" -type f -delete
+	
 # Start from scratch
 FROM base as final
 
@@ -66,6 +78,7 @@ USER steam
 # Stealing only usable dirs from previous image
 COPY --chown=steam:steam --from=builder $HLDS_PATH $HLDS_PATH
 COPY --chown=steam:steam --from=builder /home/steam/.steam /home/steam/.steam
+COPY --chown=steam:steam --from=builder $STEAM_PATH $STEAM_PATH
 	
 # Correct path for steamclient
 RUN ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
@@ -74,4 +87,5 @@ RUN ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
 # Final preparations
 COPY files/start.sh /bin/start.sh
 EXPOSE 27015/udp
+WORKDIR /home/steam
 #ENTRYPOINT /bin/start.sh
