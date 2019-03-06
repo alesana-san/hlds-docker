@@ -1,68 +1,74 @@
-mkdir -p /home/steam/opts/config
-mkdir -p /home/steam/opts/amxx
+mkdir -p $OPTS_PATH/config
+mkdir -p $OPTS_PATH/amxx
 
-if [ ! -f /home/steam/opts/config/mapcycle.txt ]; then
-	mv /home/steam/hlds/cstrike/mapcycle.txt /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/mapcycle.txt ]; then
+	mv $HLDS_PATH/cstrike/mapcycle.txt $OPTS_PATH/config
 fi
 
-if [ ! -f /home/steam/opts/config/motd.txt ]; then
-	mv /home/steam/hlds/cstrike/motd.txt /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/motd.txt ]; then
+	mv $HLDS_PATH/cstrike/motd.txt $OPTS_PATH/config
 fi
 
-if [ ! -f /home/steam/opts/config/listenserver.cfg ]; then
-	mv /home/steam/hlds/cstrike/listenserver.cfg /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/listenserver.cfg ]; then
+	mv $HLDS_PATH/cstrike/listenserver.cfg $OPTS_PATH/config
 fi
 
-if [ ! -f /home/steam/opts/config/server.cfg ]; then
-	mv /home/steam/hlds/cstrike/server.cfg /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/server.cfg ]; then
+	mv $HLDS_PATH/cstrike/server.cfg $OPTS_PATH/config
 fi
 
-if [ ! -f /home/steam/opts/config/plugins.ini ]; then
-	mv /home/steam/hlds/cstrike/addons/metamod/plugins.ini /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/plugins.ini ]; then
+	mv $HLDS_PATH/cstrike/addons/metamod/plugins.ini $OPTS_PATH/config
 fi
 
-if [ ! -f /home/steam/opts/config/dproto.cfg ]; then
-	mv /home/steam/hlds/cstrike/dproto.cfg /home/steam/opts/config
+if [ ! -f $OPTS_PATH/config/dproto.cfg ]; then
+	mv $HLDS_PATH/cstrike/dproto.cfg $OPTS_PATH/config
 fi
 
-if [ ! -d /home/steam/opts/maps ]; then
-	mv /home/steam/hlds/cstrike/maps /home/steam/opts/
+if [ ! -d $OPTS_PATH/maps ]; then
+	mv $HLDS_PATH/cstrike/maps $OPTS_PATH/
 fi
 
-if [ ! -d /home/steam/opts/amxx/configs ]; then
-	mv /home/steam/hlds/cstrike/addons/amxmodx/configs /home/steam/opts/amxx
+if [ ! -d $OPTS_PATH/logs ]; then
+	mv $HLDS_PATH/cstrike/logs $OPTS_PATH/
 fi
 
-if [ ! -d /home/steam/opts/amxx/logs ]; then
-	mv /home/steam/hlds/cstrike/addons/amxmodx/logs /home/steam/opts/amxx
+if [ ! -d $OPTS_PATH/amxx/configs ]; then
+	mv $HLDS_PATH/cstrike/addons/amxmodx/configs $OPTS_PATH/amxx
 fi
 
-if [ ! -d /home/steam/opts/amxx/modules ]; then
-	mv /home/steam/hlds/cstrike/addons/amxmodx/modules /home/steam/opts/amxx
+if [ ! -d $OPTS_PATH/amxx/logs ]; then
+	mv $HLDS_PATH/cstrike/addons/amxmodx/logs $OPTS_PATH/amxx
 fi
 
-if [ ! -d /home/steam/opts/amxx/plugins ]; then
-	mv /home/steam/hlds/cstrike/addons/amxmodx/plugins /home/steam/opts/amxx
+if [ ! -d $OPTS_PATH/amxx/modules ]; then
+	mv $HLDS_PATH/cstrike/addons/amxmodx/modules $OPTS_PATH/amxx
 fi
 
-rm -rf /home/steam/hlds/cstrike/addons/amxmodx/plugins
-rm -rf /home/steam/hlds/cstrike/addons/amxmodx/modules
-rm -rf /home/steam/hlds/cstrike/addons/amxmodx/logs
-rm -rf /home/steam/hlds/cstrike/addons/amxmodx/configs
-rm -rf /home/steam/hlds/cstrike/maps
+if [ ! -d $OPTS_PATH/amxx/plugins ]; then
+	mv $HLDS_PATH/cstrike/addons/amxmodx/plugins $OPTS_PATH/amxx
+fi
 
-ln -s /home/steam/opts/amxx/plugins /home/steam/hlds/cstrike/addons/amxmodx/plugins
-ln -s /home/steam/opts/amxx/modules /home/steam/hlds/cstrike/addons/amxmodx/modules
-ln -s /home/steam/opts/amxx/logs /home/steam/hlds/cstrike/addons/amxmodx/logs
-ln -s /home/steam/opts/amxx/configs /home/steam/hlds/cstrike/addons/amxmodx/configs
-ln -s /home/steam/opts/maps /home/steam/hlds/cstrike/maps
-ln -sf /home/steam/opts/config/dproto.cfg /home/steam/hlds/cstrike/dproto.cfg
-ln -sf /home/steam/opts/config/plugins.ini /home/steam/hlds/cstrike/addons/metamod/plugins.ini
-ln -sf /home/steam/opts/config/server.cfg /home/steam/hlds/cstrike/server.cfg
-ln -sf /home/steam/opts/config/listenserver.cfg /home/steam/hlds/cstrike/listenserver.cfg
-ln -sf /home/steam/opts/config/motd.txt /home/steam/hlds/cstrike/motd.txt
-ln -sf /home/steam/opts/config/mapcycle.txt /home/steam/hlds/cstrike/mapcycle.txt
+rm -rf $HLDS_PATH/cstrike/addons/amxmodx/plugins
+rm -rf $HLDS_PATH/cstrike/addons/amxmodx/modules
+rm -rf $HLDS_PATH/cstrike/addons/amxmodx/logs
+rm -rf $HLDS_PATH/cstrike/addons/amxmodx/configs
+rm -rf $HLDS_PATH/cstrike/maps
+rm -rf $HLDS_PATH/cstrike/logs
 
-cd /home/steam/hlds/
+ln -s $OPTS_PATH/amxx/plugins $HLDS_PATH/cstrike/addons/amxmodx/plugins
+ln -s $OPTS_PATH/amxx/modules $HLDS_PATH/cstrike/addons/amxmodx/modules
+ln -s $OPTS_PATH/amxx/logs $HLDS_PATH/cstrike/addons/amxmodx/logs
+ln -s $OPTS_PATH/amxx/configs $HLDS_PATH/cstrike/addons/amxmodx/configs
+ln -s $OPTS_PATH/maps $HLDS_PATH/cstrike/maps
+ln -s $OPTS_PATH/logs $HLDS_PATH/cstrike/logs
+ln -sf $OPTS_PATH/config/dproto.cfg $HLDS_PATH/cstrike/dproto.cfg
+ln -sf $OPTS_PATH/config/plugins.ini $HLDS_PATH/cstrike/addons/metamod/plugins.ini
+ln -sf $OPTS_PATH/config/server.cfg $HLDS_PATH/cstrike/server.cfg
+ln -sf $OPTS_PATH/config/listenserver.cfg $HLDS_PATH/cstrike/listenserver.cfg
+ln -sf $OPTS_PATH/config/motd.txt $HLDS_PATH/cstrike/motd.txt
+ln -sf $OPTS_PATH/config/mapcycle.txt $HLDS_PATH/cstrike/mapcycle.txt
+
+cd $HLDS_PATH/
 ##./hlds_run -game cstrike +maxplayers 32 +map de_dust2 +hostname "Krow7hosT" -nosteam -nomaster -insecure -port 27015 -dev
-./hlds_run -game cstrike +maxplayers 32 +map de_dust2 -port 27015 -dev
+./hlds_run -game cstrike +maxplayers 32 +map de_dust2 -port 27015 -dev +log on

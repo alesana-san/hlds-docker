@@ -63,9 +63,15 @@ RUN mkdir -p $HLDS_PATH/cstrike/SAVE && \
 	find $HLDS_PATH/valve/maps -name "*.*" -type f -delete && \
 	find $HLDS_PATH/valve/media -name "*.*" -type f -delete && \
 	find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete && \
+	find $HLDS_PATH/valve/sound -name "*.*" -type f -delete && \
+#	find $HLDS_PATH/valve/models -name "*.*" -type f -delete && \
 	find $HLDS_PATH/ -name "*.dll" -type f -delete && \
 	find $HLDS_PATH/ -name "*_amd64.so" -type f -delete && \
-	find $HLDS_PATH/ -name "*.dylib" -type f -delete
+	find $HLDS_PATH/ -name "*.dylib" -type f -delete && \
+	sed -i 's/exec listip/\/\/exec listip/' $HLDS_PATH/cstrike/server.cfg && \
+	sed -i 's/exec banned/\/\/exec banned/' $HLDS_PATH/cstrike/server.cfg && \
+	mkdir -p $HLDS_PATH/cstrike/logs && \
+	rm -rf $HLDS_PATH/libSDL2.so
 	
 # Start from scratch
 FROM base as final
