@@ -76,12 +76,15 @@ Note: use `uid=1000` and `gid=1000` as it's a `steam` user inside a container.
 Using of `noserverino` is also explained in a `for-win` post above.
 
 + Build an image:
-
 ```
 docker build -t krow7/hlds .
 ```
 
-+ Run a new container:
++ Run a new container (debug):
 ```
 docker run --rm -it krow7/hlds bash
+```
++ Run a new container (running interactive to pass commands to console with `somevol` volume created):
+```
+docker run --rm -p 27015:27015/udp -v somevol:/home/steam/opts -i krow7/hlds
 ```

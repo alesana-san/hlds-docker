@@ -64,6 +64,7 @@ RUN mkdir -p $HLDS_PATH/cstrike/SAVE && \
 	find $HLDS_PATH/valve/media -name "*.*" -type f -delete && \
 	find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete && \
 	find $HLDS_PATH/valve/sound -name "*.*" -type f -delete && \
+	find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete && \
 #	find $HLDS_PATH/valve/models -name "*.*" -type f -delete && \
 	find $HLDS_PATH/ -name "*.dll" -type f -delete && \
 	find $HLDS_PATH/ -name "*_amd64.so" -type f -delete && \
@@ -71,13 +72,24 @@ RUN mkdir -p $HLDS_PATH/cstrike/SAVE && \
 	sed -i 's/exec listip/\/\/exec listip/' $HLDS_PATH/cstrike/server.cfg && \
 	sed -i 's/exec banned/\/\/exec banned/' $HLDS_PATH/cstrike/server.cfg && \
 	mkdir -p $HLDS_PATH/cstrike/logs && \
-	rm -rf $HLDS_PATH/libSDL2.so
+#	find $HLDS_PATH/cstrike/maps -name "*.*" -type f -delete && \
+	find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + && \
+	echo "de_dust2" > $HLDS_PATH/cstrike/mapcycle.txt && \
+	find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete && \
+	rm -rf $HLDS_PATH/libSDL2.so && \
+	rm -rf $HLDS_PATH/linux64/steamclient.so && \
+	ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
+	rm -rf $HLDS_PATH/valve/cl_dlls/client.so && \
+	rm -rf $HLDS_PATH/valve/dlls/hl.so && \
+	rm -rf $HLDS_PATH/valve/dlls/director.so
 	
 # Start from scratch
 FROM base as final
 
 # Clean stuff
-RUN apt remove -y curl
+RUN apt remove -y curl && \
+	apt-get clean autoclean && \
+	apt-get autoremove -y
 		
 USER steam
 
@@ -87,11 +99,10 @@ COPY --chown=steam:steam --from=builder /home/steam/.steam /home/steam/.steam
 COPY --chown=steam:steam --from=builder $STEAM_PATH $STEAM_PATH
 	
 # Correct path for steamclient
-RUN ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
-	mkdir -p $OPTS_PATH
+RUN mkdir -p $OPTS_PATH
 	
 # Final preparations
 COPY files/start.sh /bin/start.sh
 EXPOSE 27015/udp
 WORKDIR /home/steam
-#ENTRYPOINT /bin/start.sh
+ENTRYPOINT /bin/start.sh
