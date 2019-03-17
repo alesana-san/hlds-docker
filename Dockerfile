@@ -10,7 +10,9 @@ ENV HLDS_PATH=/home/steam/hlds \
 # Install some stuff
 RUN apt-get update && apt-get install -y \
         lib32gcc1 \
-        curl && \
+        curl \
+		netcat \
+		xxd && \
 		apt-get clean autoclean && \
 		apt-get autoremove -y && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
@@ -79,6 +81,7 @@ RUN mkdir -p $HLDS_PATH/cstrike/SAVE && \
 	rm -rf $HLDS_PATH/libSDL2.so && \
 	rm -rf $HLDS_PATH/linux64/steamclient.so && \
 	ln -s $HLDS_PATH /home/steam/.steam/sdk32 && \
+	chown steam:steam /home/steam/.steam/sdk32 && \
 	rm -rf $HLDS_PATH/valve/cl_dlls/client.so && \
 	rm -rf $HLDS_PATH/valve/dlls/hl.so && \
 	rm -rf $HLDS_PATH/valve/dlls/director.so
@@ -101,8 +104,19 @@ COPY --chown=steam:steam --from=builder $STEAM_PATH $STEAM_PATH
 # Correct path for steamclient
 RUN mkdir -p $OPTS_PATH
 	
-# Final preparations
-COPY files/start.sh /bin/start.sh
+# Copy executables
+COPY --chown=steam:steam files/start.sh /bin/start.sh
+COPY --chown=steam:steam files/hc.sh /bin/hc.sh
+
+# Sharing a port
 EXPOSE 27015/udp
+
+# Setting a default dir
 WORKDIR /home/steam
-ENTRYPOINT /bin/start.sh
+
+# Adding healthcheck
+HEALTHCHECK --interval=1m --start-period=1m \
+	CMD /bin/hc.sh > /dev/null || exit 1
+	
+# Setting default command to be executed
+CMD /bin/start.sh
