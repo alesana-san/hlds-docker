@@ -82,7 +82,7 @@ docker build -t krow7/hlds .
 
 + Run a new container (debug):
 ```
-docker run --rm -it krow7/hlds bash
+docker run --rm -p 27015:27015/udp -v somevol:/home/steam/opts --user root -it krow7/hlds bash
 ```
 + Run a new container (running interactive to pass commands to console with `somevol` volume created):
 ```
