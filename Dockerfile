@@ -100,13 +100,15 @@ USER steam
 COPY --chown=steam:steam --from=builder $HLDS_PATH $HLDS_PATH
 COPY --chown=steam:steam --from=builder /home/steam/.steam /home/steam/.steam
 COPY --chown=steam:steam --from=builder $STEAM_PATH $STEAM_PATH
-	
-# Correct path for steamclient
-RUN mkdir -p $OPTS_PATH
-	
+
 # Copy executables
 COPY --chown=steam:steam files/start.sh /bin/start.sh
 COPY --chown=steam:steam files/hc.sh /bin/hc.sh
+
+# Correct path for steamclient
+RUN mkdir -p $OPTS_PATH && \
+	chmod 744 /bin/start.sh && \
+	chmod 744 /bin/hc.sh
 
 # Sharing a port
 EXPOSE 27015/udp
