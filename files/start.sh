@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mkdir -p $OPTS_PATH/config
 mkdir -p $OPTS_PATH/amxx
 

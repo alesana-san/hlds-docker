@@ -1,16 +1,16 @@
 version: '3'
 services:
-    hlds:
-#        build: .
-        ports:
-            - "27015:27015/udp"
-        image: krow7/hlds:1.1
-        volumes:
-            - "hldsvol:/home/steam/opts"
+  hlds:
+    #        build: .
+    ports:
+      - "27015:27015/udp"
+    image: krow7/hlds:1.1
+    volumes:
+      - "hldsvol:/home/steam/opts"
 
 volumes:
-    hldsvol:
-        driver_opts:
-            type: "cifs"
-            o: "username=dockeruser,password=docker,noserverino,file_mode=0777,dir_mode=0777,uid=1000,gid=1000"
-            device: "//10.0.75.1/hlds"
+  hldsvol:
+    driver_opts:
+      type: "cifs"
+      o: "username=dockeruser,password=docker,noserverino,file_mode=0777,dir_mode=0777,uid=1000,gid=1000"
+      device: "//10.0.75.1/hlds"
