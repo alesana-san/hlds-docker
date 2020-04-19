@@ -2,9 +2,6 @@ language: java
 
 services:
   - docker
-env:
-  global:
-    - HLDS_PATH="."
 
 before-install:
   - sudo apt-get update
@@ -18,4 +15,4 @@ install:
 
 script:
   - chmod 744 files/hc.sh
-  - files/hc.sh > /dev/null || exit 1
+  - files/hc.sh "." > /dev/null || exit 1
