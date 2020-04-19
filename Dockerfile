@@ -11,8 +11,7 @@ ENV HLDS_PATH=/home/steam/hlds \
 RUN apt-get update && apt-get install -y \
         lib32gcc1 \
         curl \
-		netcat \
-		xxd && \
+		netcat && \
 		apt-get clean autoclean && \
 		apt-get autoremove -y && \
 		rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
@@ -118,7 +117,7 @@ WORKDIR /home/steam
 
 # Adding healthcheck
 HEALTHCHECK --interval=1m --start-period=1m \
-	CMD /bin/hc.sh > /dev/null || exit 1
+	CMD /bin/hc.sh "$HLDS_PATH" > /dev/null || exit 1
 	
 # Setting default command to be executed
 CMD /bin/start.sh

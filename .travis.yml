@@ -2,14 +2,21 @@ language: java
 
 services:
   - docker
-env:
-  global:
-    - HLDS_PATH="."
+
+before-install:
+  - sudo apt-get update
+  - sudo apt-get install -y curl netcat
 
 install:
   - docker build -t krow7/hlds:1.1 .
   - docker-compose up -d
+  - sleep 70
   - docker ps -a
 
 script:
-  - files/hc.sh > /dev/null || exit 1
+  - chmod 744 files/hc.sh
+  - files/hc.sh "." > /dev/null || exit 1
+
+after_success:
+  - chmod 744 .travis/push.sh
+  - .travis/push.sh $TRAVIS_BRANCH $DOCKER_LOGIN $DOCKER_PASS
