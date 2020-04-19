@@ -18,5 +18,5 @@ script:
   - files/hc.sh "." > /dev/null || exit 1
 
 after_success:
-  - echo "$DOCKER_LOGIN" | docker login -u "$DOCKER_PASS" --password-stdin
-  - docker push krow7/hlds:1.1
+  - chmod 744 .travis/push.sh
+  - .travis/push.sh $TRAVIS_BRANCH $DOCKER_LOGIN $DOCKER_PASS
