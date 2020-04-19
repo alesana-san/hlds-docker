@@ -12,4 +12,5 @@ install:
   - docker ps -a
 
 script:
+  - chmod 744 files/hc.sh
   - files/hc.sh > /dev/null || exit 1
