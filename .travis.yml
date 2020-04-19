@@ -6,9 +6,14 @@ env:
   global:
     - HLDS_PATH="."
 
+before-install:
+  - sudo apt-get update
+  - apt-get install -y curl netcat xxd
+
 install:
   - docker build -t krow7/hlds:1.1 .
   - docker-compose up -d
+  - sleep 70
   - docker ps -a
 
 script:
