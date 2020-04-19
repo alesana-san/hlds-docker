@@ -10,9 +10,8 @@ before-install:
 install:
   - docker build -t krow7/hlds:1.1 .
   - docker-compose up -d
-  - sleep 70
   - docker ps -a
 
 script:
-  - chmod 744 files/hc.sh
-  - files/hc.sh "." > /dev/null || exit 1
+  - sh files/hc.sh "." || exit 1
+  - cat answer.dat
