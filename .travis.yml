@@ -10,8 +10,13 @@ before-install:
 install:
   - docker build -t krow7/hlds:1.1 .
   - docker-compose up -d
+  - sleep 70
   - docker ps -a
 
 script:
   - chmod 744 files/hc.sh
   - files/hc.sh "." > /dev/null || exit 1
+
+after_success:
+  - echo "$DOCKER_LOGIN" | docker login -u "$DOCKER_PASS" --password-stdin
+  - docker push krow7/hlds:1.1
