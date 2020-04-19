@@ -13,5 +13,5 @@ install:
   - docker ps -a
 
 script:
-  - sh files/hc.sh "." || exit 1
-  - cat answer.dat
+  - chmod 744 files/hc.sh
+  - files/hc.sh "." > /dev/null || exit 1
