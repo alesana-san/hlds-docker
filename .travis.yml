@@ -6,12 +6,12 @@ services:
 before-install:
   - sudo apt-get update
   - sudo apt-get install -y netcat
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_PULL_REQUEST
 
 install:
-  - docker build -t krow7/hlds:test .
-  - docker-compose up -d
-  - sleep 70
-  - docker ps -a
+  - chmod 744 .travis/build_and_check.sh
+  - .travis/build_and_check.sh || exit 1
 
 script:
   - chmod 744 files/hc.sh

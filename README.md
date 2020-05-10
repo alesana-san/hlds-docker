@@ -88,3 +88,6 @@ docker run --rm -p 27015:27015/udp -v somevol:/home/steam/opts --user root -it k
 ```
 docker run --rm -p 27015:27015/udp -v somevol:/home/steam/opts -i krow7/hlds
 ```
+
+### Known issues:
+1. Dproto doesn't work on this server build because of hlds update. But it is still added to the image.

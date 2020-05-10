@@ -3,7 +3,7 @@ services:
   hlds:
     ports:
       - "27015:27015/udp"
-    image: krow7/hlds:1.1
+    image: krow7/hlds:test
     volumes:
       - "hldsvol:/home/steam/opts"
 

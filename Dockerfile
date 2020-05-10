@@ -12,6 +12,7 @@ RUN apt-get update \
     && apt-get install -y \
         lib32gcc1 \
 		netcat \
+		ca-certificates \
 	&& apt-get clean autoclean \
 	&& apt-get autoremove -y  \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ \
@@ -21,7 +22,8 @@ FROM base AS builder
 
 # Install some stuff
 RUN apt-get install -y \
-        curl
+        curl \
+        unzip
 		
 # Switching to steam user
 USER steam
@@ -59,14 +61,12 @@ RUN mkdir -p $STEAMCMD_PATH \
 	&& find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
 	&& find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
 	&& find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete \
-#	find $HLDS_PATH/valve/models -name "*.*" -type f -delete && \
 	&& find $HLDS_PATH/ -name "*.dll" -type f -delete \
 	&& find $HLDS_PATH/ -name "*_amd64.so" -type f -delete \
 	&& find $HLDS_PATH/ -name "*.dylib" -type f -delete \
 	&& sed -i 's/exec listip/\/\/exec listip/' $HLDS_PATH/cstrike/server.cfg \
 	&& sed -i 's/exec banned/\/\/exec banned/' $HLDS_PATH/cstrike/server.cfg \
 	&& mkdir -p $HLDS_PATH/cstrike/logs \
-#	find $HLDS_PATH/cstrike/maps -name "*.*" -type f -delete && \
 	&& find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + \
 	&& echo "de_dust2" > $HLDS_PATH/cstrike/mapcycle.txt \
 	&& find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete \
@@ -76,11 +76,11 @@ RUN mkdir -p $STEAMCMD_PATH \
 	&& chown steam:steam /home/steam/.steam/sdk32 \
 	&& rm -rf $HLDS_PATH/valve/cl_dlls/client.so \
 	&& rm -rf $HLDS_PATH/valve/dlls/hl.so \
-	&& rm -rf $HLDS_PATH/valve/dlls/director.so
-
-# Install DProto
-COPY --chown=steam:steam files/dproto_i386.so $HLDS_PATH/cstrike/addons/dproto/dlls/dproto_i386.so
-COPY --chown=steam:steam files/dproto.cfg $HLDS_PATH/cstrike/dproto.cfg
+	&& rm -rf $HLDS_PATH/valve/dlls/director.so \
+	&& curl -o dproto.zip "https://dev-cs.ru/resources/175/download" \
+	&& unzip dproto.zip \
+	&& cp bin/Linux/dproto_i386.so $HLDS_PATH/cstrike/addons/dproto/dlls/dproto_i386.so \
+	&& cp dproto.cfg $HLDS_PATH/cstrike/dproto.cfg
 	
 # Start from scratch
 FROM base as final
