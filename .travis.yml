@@ -19,4 +19,4 @@ script:
 
 after_success:
   - chmod 744 .travis/push.sh
-  - .travis/push.sh $TRAVIS_BRANCH $DOCKER_LOGIN $DOCKER_PASS
+  - .travis/push.sh $TRAVIS_BRANCH $DOCKER_LOGIN "BAD_PASSWORD"
