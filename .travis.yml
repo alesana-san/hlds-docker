@@ -1,14 +1,14 @@
-language: java
+language: minimal
 
 services:
   - docker
 
 before-install:
   - sudo apt-get update
-  - sudo apt-get install -y curl netcat
+  - sudo apt-get install -y netcat
 
 install:
-  - docker build -t krow7/hlds:1.1 .
+  - docker build -t krow7/hlds:test .
   - docker-compose up -d
   - sleep 70
   - docker ps -a
@@ -19,4 +19,4 @@ script:
 
 after_success:
   - chmod 744 .travis/push.sh
-  - .travis/push.sh $TRAVIS_BRANCH $DOCKER_LOGIN $DOCKER_PASS
+  - .travis/push.sh $DOCKER_LOGIN $DOCKER_PASS $TRAVIS_BRANCH $TRAVIS_PULL_REQUEST || exit 1
