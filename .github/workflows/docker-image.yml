@@ -35,4 +35,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: rooooomka/hlds-docker:$VERSION
+          tags: rooooomka/hlds-docker:${{ env.VERSION }}
