@@ -95,7 +95,7 @@ RUN cd ~ \
     && unzip reunion.zip -d reunion \
     && cp -rf reunion/bin/Linux/* $HLDS_PATH/cstrike/addons/reunion \
     # https://github.com/rehlds/ReUnion/issues/1
-    && sed -i 's/^SteamIdHashSalt.*/SteamIdHashSalt = GjrEYiT5BhFq0vQ1wTn9iwGgi1ugIfgy/' reunion/reunion.cfg \ 
+    && sed -i "s/^SteamIdHashSalt.*/SteamIdHashSalt = $(head -c 10000 /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 32)/" reunion/reunion.cfg \ 
     && cp -rf reunion/reunion.cfg $HLDS_PATH/cstrike/ \
     && rm reunion.zip \
     && rm -rf reunion \
