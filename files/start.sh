@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 OPTS=$1
 HLDS=$2
 mkdir -p ${OPTS}/config
@@ -73,5 +73,4 @@ ln -sf ${OPTS}/config/motd.txt ${HLDS}/cstrike/motd.txt
 ln -sf ${OPTS}/config/mapcycle.txt ${HLDS}/cstrike/mapcycle.txt
 
 cd ${HLDS}/
-##./hlds_run -game cstrike +maxplayers 32 +map de_dust2 +hostname "Krow7hosT" -nosteam -nomaster -insecure -port 27015 -dev
 ./hlds_run -game cstrike +maxplayers 32 +map de_dust2 -port 27015 -dev +log on
