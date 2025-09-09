@@ -1,4 +1,4 @@
-FROM --platform=linux/386 debian:12.11-slim as base
+FROM debian:12.11-slim AS base
 
 ENV HLDS_PATH=/home/steam/hlds \
 	STEAMCMD_PATH=/home/steam/steamcmd \
@@ -14,8 +14,7 @@ ENV HLDS_PATH=/home/steam/hlds \
     # https://github.com/rehlds/ReHLDS/issues/999
     APP_UPDATE_90_OPTIONS="-beta steam_legacy" 
 
-RUN dpkg --add-architecture i386 \ 
-    && apt-get update \
+RUN apt-get update \
     && apt-get install -y \
         ca-certificates \ 
         netcat-traditional \
@@ -126,7 +125,7 @@ RUN cd ~ \
 	&& sed -i 's/exec banned/\/\/exec banned/' $HLDS_PATH/cstrike/server.cfg 
 
 # Start from scratch
-FROM base as final
+FROM base AS final
 
 COPY --chown=steam:steam --from=builder $HLDS_PATH $HLDS_PATH
 COPY --chown=steam:steam files/* $HLDS_PATH/
@@ -151,4 +150,4 @@ HEALTHCHECK --interval=1m --start-period=1m \
 	CMD ./hc.sh > /dev/null || exit 1
 	
 # Setting default command to be executed
-CMD ./start.sh "$OPTS_PATH" "$HLDS_PATH"
+CMD ["./start.sh", "$OPTS_PATH", "$HLDS_PATH"]

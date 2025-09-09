@@ -5,4 +5,4 @@ SAVE_PATH=/tmp
 echo -n -e ${WRITE_DATA} | nc -u -q 1 localhost 27015 | grep --text 'cstrike' > ${SAVE_PATH}/${FILE_NAME}
 cat "$SAVE_PATH/$FILE_NAME"
 # if RESULT is NULL then something is wrong. Either way server is OK
-[[ -s "$SAVE_PATH/$FILE_NAME" ]]
+[ -s "$SAVE_PATH/$FILE_NAME" ]
