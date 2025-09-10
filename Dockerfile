@@ -14,10 +14,13 @@ ENV HLDS_PATH=/home/steam/hlds \
     # https://github.com/rehlds/ReHLDS/issues/999
     APP_UPDATE_90_OPTIONS="-beta steam_legacy" 
 
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
     && apt-get install -y \
         ca-certificates \ 
         netcat-traditional \
+        libc6:i386 \ 
+        libstdc++6:i386 \
 	&& apt-get clean autoclean \
 	&& apt-get autoremove -y  \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ \
