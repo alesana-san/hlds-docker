@@ -70,12 +70,12 @@ RUN cd ~ \
     # Make hlds_linux executable
     && chmod +x $HLDS_PATH/hlds_linux \
     # Install ReGame DLL
-    && curl -L $REGAMEDLL_URL -o regame.zip \
-    && mkdir regame \
-    && unzip regame.zip -d regame \
-    && cp -rf regame/bin/linux32/* $HLDS_PATH/ \
-    && rm regame.zip \
-    && rm -rf regame \
+    # && curl -L $REGAMEDLL_URL -o regame.zip \
+    # && mkdir regame \
+    # && unzip regame.zip -d regame \
+    # && cp -rf regame/bin/linux32/* $HLDS_PATH/ \
+    # && rm regame.zip \
+    # && rm -rf regame \
     # Install AMXMOD
     && curl -sqL $AMX_MOD_BASE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
 	&& curl -sqL $AMX_MOD_CSTRIKE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
@@ -104,7 +104,7 @@ RUN cd ~ \
     # Register ReUnion
     && echo 'linux addons/reunion/reunion_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
     # Cleanups
-	&& find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
+    && find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
 	&& find $HLDS_PATH/valve/media -name "*.*" -type f -delete \
 	&& find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
 	&& find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
@@ -149,8 +149,8 @@ EXPOSE 27015/udp
 WORKDIR $HLDS_PATH
 
 # Adding healthcheck
-HEALTHCHECK --interval=1m --start-period=1m \
-	CMD ./hc.sh > /dev/null || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+	CMD ./hc.sh || exit 1
 	
 # Setting default command to be executed
-CMD ["./start.sh", "$OPTS_PATH", "$HLDS_PATH"]
+CMD ["./start.sh"]

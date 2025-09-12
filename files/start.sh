@@ -1,6 +1,6 @@
 #!/bin/sh
-OPTS=$1
-HLDS=$2
+OPTS=$OPTS_PATH
+HLDS=$HLDS_PATH
 mkdir -p ${OPTS}/config
 mkdir -p ${OPTS}/amxx
 
