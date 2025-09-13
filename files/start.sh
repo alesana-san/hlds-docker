@@ -73,4 +73,4 @@ ln -sf ${OPTS}/config/motd.txt ${HLDS}/cstrike/motd.txt
 ln -sf ${OPTS}/config/mapcycle.txt ${HLDS}/cstrike/mapcycle.txt
 
 cd ${HLDS}/
-./hlds_run -game cstrike +maxplayers 32 +map de_dust2 -port 27015 -dev +log on
+./hlds_run -game cstrike +maxplayers 32 +map de_dust2 -port 27015 -dev +log on -insecure +sv_lan 1
