@@ -1,12 +1,12 @@
 version: '3'
 services:
   hlds:
+    image: rooooomka/hlds-docker:2.0
+    platform: linux/amd64
     ports:
       - "27015:27015/udp"
-    image: krow7/hlds:test
     volumes:
       - "hldsvol:/home/steam/opts"
 
 volumes:
   hldsvol:
-

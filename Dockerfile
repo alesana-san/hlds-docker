@@ -21,6 +21,7 @@ RUN dpkg --add-architecture i386 \
         netcat-traditional \
         libc6:i386 \ 
         libstdc++6:i386 \
+        gdb-multiarch gdb \
 	&& apt-get clean autoclean \
 	&& apt-get autoremove -y  \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/ \
