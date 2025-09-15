@@ -9,8 +9,8 @@ ENV HLDS_PATH=/home/steam/hlds \
     REGAMEDLL_URL="https://github.com/rehlds/ReGameDLL_CS/releases/download/5.28.0.756/regamedll-bin-5.28.0.756.zip" \
     REAPI_URL="https://github.com/rehlds/ReAPI/releases/download/5.26.0.338/reapi-bin-5.26.0.338.zip" \ 
     REUNION_URL="https://github.com/rehlds/ReUnion/releases/download/0.2.0.25/reunion-0.2.0.25.zip" \
-    AMX_MOD_BASE_URL="http://www.amxmodx.org/release/amxmodx-1.8.2-base-linux.tar.gz" \
-    AMX_MOD_CSTRIKE_URL="http://www.amxmodx.org/release/amxmodx-1.8.2-cstrike-linux.tar.gz" \
+    AMX_MOD_BASE_URL="https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5468-base-linux.tar.gz" \
+    AMX_MOD_CSTRIKE_URL="https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5468-cstrike-linux.tar.gz" \
     # https://github.com/rehlds/ReHLDS/issues/999
     APP_UPDATE_90_OPTIONS="-beta steam_legacy" 
 
@@ -71,12 +71,12 @@ RUN cd ~ \
     # Make hlds_linux executable
     && chmod +x $HLDS_PATH/hlds_linux \
     # Install ReGame DLL
-    # && curl -L $REGAMEDLL_URL -o regame.zip \
-    # && mkdir regame \
-    # && unzip regame.zip -d regame \
-    # && cp -rf regame/bin/linux32/* $HLDS_PATH/ \
-    # && rm regame.zip \
-    # && rm -rf regame \
+    && curl -L $REGAMEDLL_URL -o regame.zip \
+    && mkdir regame \
+    && unzip regame.zip -d regame \
+    && cp -rf regame/bin/linux32/* $HLDS_PATH/ \
+    && rm regame.zip \
+    && rm -rf regame \
     # Install AMXMOD
     && curl -sqL $AMX_MOD_BASE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
 	&& curl -sqL $AMX_MOD_CSTRIKE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
@@ -105,21 +105,21 @@ RUN cd ~ \
     # Register ReUnion
     && echo 'linux addons/reunion/reunion_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
     # Cleanups
-    && find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
-	&& find $HLDS_PATH/valve/media -name "*.*" -type f -delete \
-	&& find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
-	&& find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
-	&& find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete \
-	&& find $HLDS_PATH/ -name "*.dll" -type f -delete \
-	&& find $HLDS_PATH/ -name "*_amd64.so" -type f -delete \
-	&& find $HLDS_PATH/ -name "*.dylib" -type f -delete \
-	&& find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + \
-	&& find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete \
-	&& rm -rf $HLDS_PATH/libSDL2.so \
-	&& rm -rf $HLDS_PATH/linux64/steamclient.so \
-	&& rm -rf $HLDS_PATH/valve/cl_dlls/client.so \
-	&& rm -rf $HLDS_PATH/valve/dlls/hl.so \
-	&& rm -rf $HLDS_PATH/valve/dlls/director.so \
+    # && find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
+	# && find $HLDS_PATH/valve/media -name "*.*" -type f -delete \
+	# && find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
+	# && find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
+	# && find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete \
+	# && find $HLDS_PATH/ -name "*.dll" -type f -delete \
+	# && find $HLDS_PATH/ -name "*_amd64.so" -type f -delete \
+	# && find $HLDS_PATH/ -name "*.dylib" -type f -delete \
+	# && find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + \
+	# && find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete \
+	# && rm -rf $HLDS_PATH/libSDL2.so \
+	# && rm -rf $HLDS_PATH/linux64/steamclient.so \
+	# && rm -rf $HLDS_PATH/valve/cl_dlls/client.so \
+	# && rm -rf $HLDS_PATH/valve/dlls/hl.so \
+	# && rm -rf $HLDS_PATH/valve/dlls/director.so \
     # Fixes
     && mkdir -p $HLDS_PATH/cstrike/logs \
 	&& echo "de_dust2" > $HLDS_PATH/cstrike/mapcycle.txt \ 
