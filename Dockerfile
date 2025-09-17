@@ -49,77 +49,77 @@ RUN cd ~ \
 	&& $STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 70 validate +quit \
 	&& $STEAMCMD_PATH/steamcmd.sh +login anonymous +force_install_dir $HLDS_PATH +app_update 10 validate +quit \
     # Install MetaMod
-    #&& mkdir -p $HLDS_PATH/cstrike/addons/metamod/dlls \
-    #&& curl -L $METAMOD_URL -o metamod.zip \
-    #&& mkdir metamod \
-    #&& unzip metamod.zip -d metamod \
-    #&& rm metamod/addons/metamod/metamod.dll \
-    #&& cp metamod/addons/metamod/* $HLDS_PATH/cstrike/addons/metamod/dlls/ \
-    #&& rm metamod.zip \
-    #&& rm -rf metamod \
-	#&& touch $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
-    ## Register MetaMod
-	#&& sed -i '/^gamedll_linux/d' $HLDS_PATH/cstrike/liblist.gam \
-	#&& echo 'gamedll_linux "addons/metamod/dlls/metamod_i386.so"' >> $HLDS_PATH/cstrike/liblist.gam \
-    ## Install ReHLDS
-    #&& curl -L $REHLDS_URL -o rehlds.zip \
-    #&& mkdir rehlds \
-    #&& unzip rehlds.zip -d rehlds \
-    #&& cp -rf rehlds/bin/linux32/* $HLDS_PATH/ \
-    #&& rm rehlds.zip \
-    #&& rm -rf rehlds \
-    ## Make hlds_linux executable
-    #&& chmod +x $HLDS_PATH/hlds_linux \
-    ## Install ReGame DLL
-    #&& curl -L $REGAMEDLL_URL -o regame.zip \
-    #&& mkdir regame \
-    #&& unzip regame.zip -d regame \
-    #&& cp -rf regame/bin/linux32/* $HLDS_PATH/ \
-    #&& rm regame.zip \
-    #&& rm -rf regame \
-    ## Install AMXMOD
-    #&& curl -sqL $AMX_MOD_BASE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
-	#&& curl -sqL $AMX_MOD_CSTRIKE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
-    ## Register AMXMOD
-	#&& echo 'linux addons/amxmodx/dlls/amxmodx_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
-    ## Install ReAPI module
-    #&& curl -L $REAPI_URL -o reapi.zip \
-    #&& mkdir reapi \
-    #&& unzip reapi.zip -d reapi \
-    #&& cp -rf reapi/addons/amxmodx/modules/reapi_amxx_i386.so $HLDS_PATH/cstrike/addons/amxmodx/modules/ \
-    #&& rm reapi.zip \
-    #&& rm -rf reapi \
-    ## Register ReAPI
-    #&& echo 'reapi' >> $HLDS_PATH/cstrike/addons/amxmodx/configs/modules.ini \
-    ## Install ReUnion (DProto continuation)
-    #&& curl -L $REUNION_URL -o reunion.zip \
-    #&& mkdir reunion \
-    #&& mkdir $HLDS_PATH/cstrike/addons/reunion \
-    #&& unzip reunion.zip -d reunion \
-    #&& cp -rf reunion/bin/Linux/* $HLDS_PATH/cstrike/addons/reunion \
-    ## https://github.com/rehlds/ReUnion/issues/1
-    #&& sed -i "s/^SteamIdHashSalt.*/SteamIdHashSalt = $(head -c 10000 /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 32)/" reunion/reunion.cfg \ 
-    #&& cp -rf reunion/reunion.cfg $HLDS_PATH/cstrike/ \
-    #&& rm reunion.zip \
-    #&& rm -rf reunion \
-    ## Register ReUnion
-    #&& echo 'linux addons/reunion/reunion_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
+    && mkdir -p $HLDS_PATH/cstrike/addons/metamod/dlls \
+    && curl -L $METAMOD_URL -o metamod.zip \
+    && mkdir metamod \
+    && unzip metamod.zip -d metamod \
+    && rm metamod/addons/metamod/metamod.dll \
+    && cp metamod/addons/metamod/* $HLDS_PATH/cstrike/addons/metamod/dlls/ \
+    && rm metamod.zip \
+    && rm -rf metamod \
+	&& touch $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
+    # Register MetaMod
+	&& sed -i '/^gamedll_linux/d' $HLDS_PATH/cstrike/liblist.gam \
+	&& echo 'gamedll_linux "addons/metamod/dlls/metamod_i386.so"' >> $HLDS_PATH/cstrike/liblist.gam \
+    # Install ReHLDS
+    && curl -L $REHLDS_URL -o rehlds.zip \
+    && mkdir rehlds \
+    && unzip rehlds.zip -d rehlds \
+    && cp -rf rehlds/bin/linux32/* $HLDS_PATH/ \
+    && rm rehlds.zip \
+    && rm -rf rehlds \
+    # Make hlds_linux executable
+    && chmod +x $HLDS_PATH/hlds_linux \
+    # Install ReGame DLL
+    && curl -L $REGAMEDLL_URL -o regame.zip \
+    && mkdir regame \
+    && unzip regame.zip -d regame \
+    && cp -rf regame/bin/linux32/* $HLDS_PATH/ \
+    && rm regame.zip \
+    && rm -rf regame \
+    # Install AMXMOD
+    && curl -sqL $AMX_MOD_BASE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
+	&& curl -sqL $AMX_MOD_CSTRIKE_URL | tar -C $HLDS_PATH/cstrike/ -zxvf - \
+    # Register AMXMOD
+	&& echo 'linux addons/amxmodx/dlls/amxmodx_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
+    # Install ReAPI module
+    && curl -L $REAPI_URL -o reapi.zip \
+    && mkdir reapi \
+    && unzip reapi.zip -d reapi \
+    && cp -rf reapi/addons/amxmodx/modules/reapi_amxx_i386.so $HLDS_PATH/cstrike/addons/amxmodx/modules/ \
+    && rm reapi.zip \
+    && rm -rf reapi \
+    # Register ReAPI
+    && echo 'reapi' >> $HLDS_PATH/cstrike/addons/amxmodx/configs/modules.ini \
+    # Install ReUnion (DProto continuation)
+    && curl -L $REUNION_URL -o reunion.zip \
+    && mkdir reunion \
+    && mkdir $HLDS_PATH/cstrike/addons/reunion \
+    && unzip reunion.zip -d reunion \
+    && cp -rf reunion/bin/Linux/* $HLDS_PATH/cstrike/addons/reunion \
+    # https://github.com/rehlds/ReUnion/issues/1
+    && sed -i "s/^SteamIdHashSalt.*/SteamIdHashSalt = $(head -c 10000 /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 32)/" reunion/reunion.cfg \ 
+    && cp -rf reunion/reunion.cfg $HLDS_PATH/cstrike/ \
+    && rm reunion.zip \
+    && rm -rf reunion \
+    # Register ReUnion
+    && echo 'linux addons/reunion/reunion_mm_i386.so' >> $HLDS_PATH/cstrike/addons/metamod/plugins.ini \
     # Cleanups
-    # && find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
-	# && find $HLDS_PATH/valve/media -name "*.*" -type f -delete \
-	# && find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
-	# && find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
-	# && find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete \
-	# && find $HLDS_PATH/ -name "*.dll" -type f -delete \
-	# && find $HLDS_PATH/ -name "*_amd64.so" -type f -delete \
-	# && find $HLDS_PATH/ -name "*.dylib" -type f -delete \
-	# && find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + \
-	# && find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete \
-	# && rm -rf $HLDS_PATH/libSDL2.so \
-	# && rm -rf $HLDS_PATH/linux64/steamclient.so \
-	# && rm -rf $HLDS_PATH/valve/cl_dlls/client.so \
-	# && rm -rf $HLDS_PATH/valve/dlls/hl.so \
-	# && rm -rf $HLDS_PATH/valve/dlls/director.so \
+    && find $HLDS_PATH/valve/maps -name "*.*" -type f -delete \
+	&& find $HLDS_PATH/valve/media -name "*.*" -type f -delete \
+	&& find $HLDS_PATH/valve/overviews -name "*.*" -type f -delete \
+	&& find $HLDS_PATH/valve/sound -name "*.*" -type f -delete \
+	&& find $HLDS_PATH/valve/gfx -name "*.*" -type f -delete \
+	&& find $HLDS_PATH/ -name "*.dll" -type f -delete \
+	&& find $HLDS_PATH/ -name "*_amd64.so" -type f -delete \
+	&& find $HLDS_PATH/ -name "*.dylib" -type f -delete \
+	&& find $HLDS_PATH/cstrike/maps ! -name 'de_dust2.bsp' -type f -exec rm -f {} + \
+	&& find $HLDS_PATH/cstrike/overviews -name "*.*" -type f -delete \
+	&& rm -rf $HLDS_PATH/libSDL2.so \
+	&& rm -rf $HLDS_PATH/linux64/steamclient.so \
+	&& rm -rf $HLDS_PATH/valve/cl_dlls/client.so \
+	&& rm -rf $HLDS_PATH/valve/dlls/hl.so \
+	&& rm -rf $HLDS_PATH/valve/dlls/director.so \
     # Fixes
     && mkdir -p $HLDS_PATH/cstrike/logs \
 	&& echo "de_dust2" > $HLDS_PATH/cstrike/mapcycle.txt \ 
