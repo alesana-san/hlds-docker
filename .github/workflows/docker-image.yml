@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature/*
 
 jobs:
   build:
@@ -12,6 +13,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Read version
+        id: vars
+        run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
+
+      - name: Log version
+        run: echo "Building version $VERSION"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -27,4 +35,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: rooooomka/hlds-docker:latest
+          platforms: linux/amd64,linux/386
+          tags: rooooomka/hlds-docker:${{ env.VERSION }}
